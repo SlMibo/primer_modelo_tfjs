@@ -1,7 +1,4 @@
-// const passage = "Google LLC is an American multinational technology company that specializes in Internet-related services and products, which include online advertising technologies, search engine, cloud computing, software, and hardware. It is considered one of the Big Four technology companies, alongside Amazon, Apple, and Facebook. Google was founded in September 1998 by Larry Page and Sergey Brin while they were Ph.D. students at Stanford University in California. Together they own about 14 percent of its shares and control 56 percent of the stockholder voting power through supervoting stock. They incorporated Google as a California privately held company on September 4, 1998, in California. Google was then reincorporated in Delaware on October 22, 2002. An initial public offering (IPO) took place on August 19, 2004, and Google moved to its headquarters in Mountain View, California, nicknamed the Googleplex. In August 2015, Google announced plans to reorganize its various interests as a conglomerate called Alphabet Inc. Google is Alphabet's leading subsidiary and will continue to be the umbrella company for Alphabet's Internet interests. Sundar Pichai was appointed CEO of Google, replacing Larry Page who became the CEO of Alphabet."
-// const question = "Who is the CEO of Google?"
-// const model = await qna.load();
-
+// -------------- MODELO DE PREGUNTAS Y RESPUESTAS------------------
 
 const msg = document.getElementById('msg');
 const contenedor = document.getElementById('content');
@@ -14,16 +11,17 @@ let model;
 
 // Load the model.
 qna.load().then(tf_model => {
-    console.log('emtreno')
-    // Find the answers
+    // Una vez que el modelo haya entrenado, se ocultará
+    // el div con el texto "Entrenando..."
     msg.hidden = true;
+    // Se mostrará el div con el formulario
     contenedor.hidden = false;
+    // Y se le dará el valor del modelo ya entrenado a la variable global "model"
     model = tf_model;
-
-    
-
 });
 
+// Con el evento change en el textarea, valida si se ingresa un texto
+// de más de 30 caracteres. Si es así, habilita el input para ingresar pregunta
 info.addEventListener('input', (e) => {
     const infoText = e.target.value;
     if( infoText.length > 30){
@@ -31,16 +29,24 @@ info.addEventListener('input', (e) => {
     }
 })
 
+// Con el evento submit en el botón, se evita el comportamiento por defecto de recarga
+// Se inhabilita el botón, para volver a habilitarlo después de "contestar" 
+// o de que el modelo termina su proceso
 form.addEventListener('submit', (e) => {
     e.preventDefault();
     butt.disabled = true;
 
+    //Se obtienen los valores de los input para usarlos de parámetros en el modelo
     const pregunt = pregunta.value;
     const informacion = info.value;
     if(model){
         model.findAnswers(pregunt, informacion).then(answers => {
             console.log(answers); 
+            // Se valida que exista una respuesta a la pregunta hecha
+            // Si answers sólo tiene un array vacío, se informará que no hay respuesta
             if (answers.length > 0){
+                // Teniendo en cuenta que las oraciones se ordenan según el puntaje
+                // obtenido según el modelo, se mostrará en pantalla el primero
                 const response = answers[0].text;
                 respuesta.innerHTML = `Respuesta mejor puntuada: ${response}`;
                 console.log(answers[0].text);
