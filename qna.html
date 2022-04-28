@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Make sure your page supports utf-8 characterset. -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Load TensorFlow.js. This is required to use the qna model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"> </script>
+    <!-- Load the qna model. -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/qna"> </script>
+    
+</head>
+<body>
+    <div id="msg">Entrenando...</div>
+    <div id="content" hidden>
+        <form action="" id="form">
+            <textarea name="" id="info" cols="30" rows="10" placeholder="Dame información a procesar :("></textarea><br>
+            <input type="text" id="pregunta" placeholder="Ahora si pregúntame :)" disabled>
+            <button id="boton" type="submit">Pregunta</button>
+        </form>
+    </div><br>
+    <div id="respuesta">
+
+    </div>
+</body>
+<script src="./qna.js"></script>
+</html>
